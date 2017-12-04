@@ -11,12 +11,15 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
+
+    @yield('style')
+    <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
+            <div class="container-fluid">
                 <div class="navbar-header">
 
                     <!-- Collapsed Hamburger -->
@@ -47,6 +50,19 @@
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    @lang('app.admin.datos.title') <span class="caret"></span> 
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="{{ route('admin.datos.campos') }}">
+                                            @lang('app.admin.datos.campos.title')  
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a href="{{ route('admin.sincro') }}">@lang('app.admin.sincro.title')</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 
@@ -75,5 +91,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+
+    @yield('scripts')
 </body>
 </html>

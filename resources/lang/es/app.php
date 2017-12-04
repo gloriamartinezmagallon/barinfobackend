@@ -1,5 +1,29 @@
 <?php
 return [
+    'general'       => [
+        'si'      => 'Si',
+        'no'      => 'No',
+        'guardar' => 'Guardar',
+        'buscar'  => 'Buscar',
+    ],
+
+    'buscador'      => [
+        'indicartamanio' => 'Filtrar por tamaño',
+        'indicarmarca'   => 'Filtrar por marca',
+        'hay'            => 'Tiene',
+    ],
+
+    'home'          => [
+        'buscador' => 'Buscador',
+        'bar'      => [
+            'conOpiniones'=>'Mostrar sólo bares que tengan opiniones',
+            'NombreLocalidad' => 'Localidad',
+            'Tipo'            => 'Tipo',
+            'Especialidad'    => 'Especialidad',
+            'DescripZona'     => 'Zona',
+        ],
+    ],
+
     'login'         => [
         'title'             => 'Inicio de sesión',
         'email'             => 'Correo electrónico',
@@ -15,5 +39,25 @@ return [
         'password'        => 'Contraseña',
         'confirmpassword' => 'Confirmar contraseña',
 
+    ],
+
+    'admin'         => [
+        'sincro' => [
+            'title' => 'Sincronización GN',
+            'btn'   => 'Sincronizar',
+        ],
+        'datos'  => [
+            'title'  => 'Gestión de datos',
+            'campos' => [
+                'title'   => 'Campos de búsqueda',
+                'nombre'  => 'Nombre del campo',
+                'marca'   => 'Indicar marca',
+                'tamanio' => 'Indicar tamaño',
+                'crear'   => [
+                    'title' => 'Crear nuevo campo de búsqueda',
+                ],
+            ],
+
+        ],
     ],
 ];
