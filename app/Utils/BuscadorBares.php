@@ -43,19 +43,19 @@ class BuscadorBares
         }
 
         if ($NombreLocalidad != '') {
-            $whereArgs[] = 'NombreLocalidad = \'' . $NombreLocalidad . '\'';
+            $whereArgs[] = 'nombreLocalidad = \'' . $NombreLocalidad . '\'';
         }
 
-        if ($Tipo != '') {
-            $whereArgs[] = 'Tipo = \'' . $Tipo . '\'';
+        if ($Tipo > 0) {
+            $whereArgs[] = 'opinions.tipo_id = \'' . $Tipo . '\'';
         }
 
         if ($Especialidad != '') {
-            $whereArgs[] = 'Especialidad = \'' . $Especialidad . '\'';
+            $whereArgs[] = 'especialidad = \'' . $Especialidad . '\'';
         }
 
         if ($DescripZona != '') {
-            $whereArgs[] = 'DescripZona = \'' . $DescripZona . '\'';
+            $whereArgs[] = 'descripZona = \'' . $DescripZona . '\'';
         }
 
         if (is_array($campos)){
@@ -84,11 +84,13 @@ class BuscadorBares
             $distance = str_replace('ORIGLNG', $request->input('Longitud', $Longitud), $distance);
 
             $bares = DB::table('bars')
-                ->leftjoin('campo_opinions', 'campo_opinions.bar_id', '=', 'bars.id')
+                ->leftjoin('opinions', 'opinions.bar_id', '=', 'bars.id')
+                ->leftjoin('campo_opinions', 'campo_opinions.opinion_id', '=', 'opinions.id')
                 ->leftjoin('campo_opinion_tamanios', 'campo_opinion_tamanios.campo_opinion_id', '=', 'campo_opinions.id')
                 ->leftjoin('campo_opinion_marcas', 'campo_opinion_marcas.campo_opinion_id', '=', 'campo_opinions.id')
                 ->select('bars.*', DB::raw($distance))
                 ->whereRaw(implode(' AND ', $whereArgs))
+                ->groupBy('bars.*')
                 ->orderBy('distance', 'ASC')
                 ->get();
         } else {
@@ -98,6 +100,7 @@ class BuscadorBares
                 ->leftjoin('campo_opinion_marcas', 'campo_opinion_marcas.campo_opinion_id', '=', 'campo_opinions.id')
                 ->select('bars.*')
                 ->whereRaw(implode(' AND ', $whereArgs))
+                ->groupBy(['id','codrecursoGN', 'nombre', 'nombreLocalidad', 'tipo', 'especialidad', 'imgFicheroGN', 'descripZona', 'latitud', 'longitud','direccion','created_at','updated_at'])
                 ->get();
 
             file_put_contents("prueba.txt", '////' . implode(' AND ', $whereArgs));
@@ -196,13 +199,13 @@ class BuscadorBares
                 'indicarmarca'   => $c->indicarmarca,
                 'indicartamanio' => $c->indicartamanio,
                 'numopiniones'   => count($c->opiniones),
-                'marcas'         => [Lang::get('app.buscador.indicarmarca')],
-                'tamanios'       => [Lang::get('app.buscador.indicartamanio')],
+                'marcas'         => [],
+                'tamanios'       => [],
             ];
             foreach ($c->opiniones as $op) {
                 foreach ($op->marcas as $m) {
                     if (!in_array($m->Nombre, $aux['marcas'])) {
-                        $aux['marcas'][] = $m->Nombre;
+                        $aux['marcas'][] = $m->nombre;
                     }
                 }
 

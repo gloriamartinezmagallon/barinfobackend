@@ -17,3 +17,5 @@ return $request->user();
 
 Route::post('bares', 'App\AppController@bares')->name('app.bares');
 Route::get('buscador', 'App\AppController@buscadorinit')->name('app.buscador');
+Route::post('addopinion', 'App\AppController@addopinion')->name('app.addopinion');
+Route::get('barinfo/{id}', 'App\AppController@barinfo')->name('app.barinfo');

@@ -55,9 +55,8 @@ class SincroController extends Controller
                 $json = file_get_contents($url);
                 $obj = json_decode($json);
 
-                    dd($obj);
-                if ($obj->status !== 'OK'){
-                    $db['direccion'] = str_replace(', Spain', '',$obj->results[0]->formatted_address);
+                if ($obj->status == 'OK'){
+                    $db['direccion'] = str_replace(', Navarra, Spain', '',$obj->results[0]->formatted_address);
                 }
             }catch(\Exception $e){}
                 

@@ -1,1 +1,1 @@
-["1 = 1"]
+["1 = 1","campo_opinions.bar_id IS NOT NULL","nombreLocalidad = 'PAMPLONA'"]

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class RemanecolumnDescripzonaBarsTable extends Migration
+class AddcolumnOpinionIdCampoopinionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class RemanecolumnDescripzonaBarsTable extends Migration
      */
     public function up()
     {
-        Schema::table('bars', function (Blueprint $table) {
-           //$table->renameColumn('DescripZona', 'descripZona');
+        Schema::table('campo_opinions', function (Blueprint $table) {
+            $table->integer('opinion_id');
         });
     }
 
@@ -25,8 +25,8 @@ class RemanecolumnDescripzonaBarsTable extends Migration
      */
     public function down()
     {
-        Schema::table('bars', function (Blueprint $table) {
-           // $table->renameColumn('descripZona', 'DescripZona');
+        Schema::table('campo_opinions', function (Blueprint $table) {
+            $table->dropColumn('opinion_id');
         });
     }
 }

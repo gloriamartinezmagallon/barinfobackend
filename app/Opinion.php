@@ -15,4 +15,9 @@ class Opinion extends Model
     {
         return $this->belongsTo('App\Tipo');
     }
+
+    public function camposopiniones()
+    {
+        return $this->hasMany('App\CampoOpinion');
+    }
 }

@@ -38,6 +38,12 @@ class CampoController extends Controller
 
     public function update($id, Request $request)
     {
+        $campo                 = Campo::find($id);
+        $campo->nombre         = $request->input('nombre');
+        $campo->indicarmarca   = $request->input('indicarmarca');
+        $campo->indicartamanio = $request->input('indicartamanio');
+        $campo->save();
 
+        return redirect(route('admin.datos.campos'));
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class CampoOpinion extends Model
 {
     protected $fillable = [
-        'bar_id', 'campo_id', 'tiene',
+        'bar_id', 'campo_id', 'tiene','deviceid', 'opinion_id'
     ];
 
     public function marcas()
@@ -24,4 +24,11 @@ class CampoOpinion extends Model
     {
         return $this->belongsTo('App\Campo');
     }
+
+    public function opinion()
+    {
+        return $this->belongsTo('App\Opinion');
+    }
+
+    
 }

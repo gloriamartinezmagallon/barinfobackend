@@ -14,9 +14,4 @@ class Bar extends Model
     {
         return $this->hasMany('App\Opinion');
     }
-
-    public function camposopiniones()
-    {
-        return $this->hasMany('App\CampoOpinion');
-    }
 }
