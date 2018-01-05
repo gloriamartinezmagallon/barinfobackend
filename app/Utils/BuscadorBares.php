@@ -23,6 +23,7 @@ class BuscadorBares
 
         $Latitud  = $request->input('Latitud', 0);
         $Longitud = $request->input('Longitud', 0);
+        $Distancia = $request->input('Distancia', 0);
 
         $campos = $request->input('Campo', []);
 
@@ -58,6 +59,15 @@ class BuscadorBares
             $whereArgs[] = 'descripZona = \'' . $DescripZona . '\'';
         }
 
+        if ($Latitud != 0 && $Distancia > 0) {
+            $distancewhere = '(6371 *  2 * ASIN(SQRT(POWER(SIN((ORIGLAT- Latitud) * pi()/180 / 2), 2) +COS(ORIGLAT * pi()/180) *COS(Latitud * pi()/180) *POWER(SIN((ORIGLNG -Longitud) * pi()/180 / 2), 2) )))';
+
+            $distancewhere = str_replace('ORIGLAT', $request->input('Latitud', $Latitud), $distancewhere);
+            $distancewhere = str_replace('ORIGLNG', $request->input('Longitud', $Longitud), $distancewhere);
+            $whereArgs[] = $distancewhere.' <= '. ($Distancia/1000) ;
+
+        }
+
         if (is_array($campos)){
             foreach ($campos as $c) {
                 if ($c['tiene'] != 0 || $c['tamanio'] != 0 || $c['marca'] != 0) {
@@ -74,9 +84,6 @@ class BuscadorBares
         }
 
 
-        file_put_contents("filename.txt", json_encode($whereArgs));
-        
-
         if ($Latitud != 0) {
             $distance = '(6371 *  2 * ASIN(SQRT(POWER(SIN((ORIGLAT- Latitud) * pi()/180 / 2), 2) +COS(ORIGLAT * pi()/180) *COS(Latitud * pi()/180) *POWER(SIN((ORIGLNG -Longitud) * pi()/180 / 2), 2) ))) as distance';
 
@@ -90,20 +97,19 @@ class BuscadorBares
                 ->leftjoin('campo_opinion_marcas', 'campo_opinion_marcas.campo_opinion_id', '=', 'campo_opinions.id')
                 ->select('bars.*', DB::raw($distance))
                 ->whereRaw(implode(' AND ', $whereArgs))
-                ->groupBy('bars.*')
+                ->groupBy(['id','codrecursoGN', 'nombre', 'nombreLocalidad', 'tipo', 'especialidad', 'imgFicheroGN', 'descripZona', 'latitud', 'longitud','direccion','created_at','updated_at','distance','deviceid'])
                 ->orderBy('distance', 'ASC')
                 ->get();
         } else {
             $bares = DB::table('bars')
-                ->leftjoin('campo_opinions', 'campo_opinions.bar_id', '=', 'bars.id')
+                ->leftjoin('opinions', 'opinions.bar_id', '=', 'bars.id')
+                ->leftjoin('campo_opinions', 'campo_opinions.opinion_id', '=', 'opinions.id')
                 ->leftjoin('campo_opinion_tamanios', 'campo_opinion_tamanios.campo_opinion_id', '=', 'campo_opinions.id')
                 ->leftjoin('campo_opinion_marcas', 'campo_opinion_marcas.campo_opinion_id', '=', 'campo_opinions.id')
                 ->select('bars.*')
                 ->whereRaw(implode(' AND ', $whereArgs))
-                ->groupBy(['id','codrecursoGN', 'nombre', 'nombreLocalidad', 'tipo', 'especialidad', 'imgFicheroGN', 'descripZona', 'latitud', 'longitud','direccion','created_at','updated_at'])
+                ->groupBy(['id','codrecursoGN', 'nombre', 'nombreLocalidad', 'tipo', 'especialidad', 'imgFicheroGN', 'descripZona', 'latitud', 'longitud','direccion','created_at','updated_at','deviceid'])
                 ->get();
-
-            file_put_contents("prueba.txt", '////' . implode(' AND ', $whereArgs));
         }
 
 

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Bar extends Model
 {
     protected $fillable = [
-        'codrecursoGN', 'nombre', 'nombreLocalidad', 'tipo', 'especialidad', 'imgFicheroGN', 'descripZona', 'latitud', 'longitud','direccion'
+        'codrecursoGN', 'nombre', 'nombreLocalidad', 'tipo', 'especialidad', 'imgFicheroGN', 'descripZona', 'latitud', 'longitud','direccion','deviceid'
     ];
 
     public function opiniones()

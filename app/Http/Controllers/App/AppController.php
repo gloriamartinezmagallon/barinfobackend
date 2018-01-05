@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Opinion;
 use App\Utils\BuscadorBares;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AppController extends Controller
 {
@@ -19,6 +20,16 @@ class AppController extends Controller
         $bares    = $buscador->buscar($request);
         return $bares;
     }
+
+    public function baresmaspopulares(){
+        return Bar::withCount('opiniones')->orderBy('opiniones_count', 'desc')->take(10)->get();
+    }
+
+    public function baresnombre(){
+        return Bar::get();
+    }
+
+    
 
     public function buscadorinit()
     {
@@ -32,13 +43,35 @@ class AppController extends Controller
         return  Bar::with('opiniones')->with('opiniones.tipo')->with('opiniones.camposopiniones')->with('opiniones.camposopiniones.campo')->with('opiniones.camposopiniones.marcas')->with('opiniones.camposopiniones.tamanios')->find($id);
     }
 
+    public function addbar(Request $request){
+
+        file_put_contents("prueba.txt", $request->getContent());
+        $data = json_decode($request->getContent());
+
+        $bar = Bar::where(['direccion'=>$data->direccion])->first();
+
+        if ($bar == null){
+            $bar = Bar::create([
+                'nombre'=>$data->nombre,
+                'nombreLocalidad'=>'',
+                'direccion'=>$data->direccion,
+                'latitud'=>$data->latitud,
+                'longitud'=>$data->longitud,
+                'deviceid'=>$data->deviceid,
+            ]);
+        }
+
+         return  Bar::with('opiniones')->with('opiniones.tipo')->with('opiniones.camposopiniones')->with('opiniones.camposopiniones.campo')->with('opiniones.camposopiniones.marcas')->with('opiniones.camposopiniones.tamanios')->find($bar->id);
+        
+    }
+
     public function addopinion(Request $request){
         file_put_contents("prueba.txt", $request->getContent());
         $data = json_decode($request->getContent());
 
         if ($data->id > 0){
             $opinion = Opinion::find($data->id);
-            $deviceid = $data->device_id;
+            $deviceid = $data->deviceid;
             $barid = $data->bar_id;
 
             $campoopiniones = CampoOpinion::where(['opinion_id'=>$data->id])->get();
@@ -58,7 +91,7 @@ class AppController extends Controller
         
         $opinion->bar_id = $data->bar_id;
         $opinion->calidad = $data->calidad;
-        $opinion->deviceid = $data->device_id;
+        $opinion->deviceid = $data->deviceid;
         if ($data->tipo_id > 0){
              $opinion->tipo_id = $data->tipo_id;
         }
