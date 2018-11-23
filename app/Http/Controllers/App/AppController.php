@@ -58,7 +58,20 @@ class AppController extends Controller
                 'latitud'=>$data->latitud,
                 'longitud'=>$data->longitud,
                 'deviceid'=>$data->deviceid,
+                'google_phonenumber'=>$data->google_phonenumber,
+                'google_website'=>$data->google_website,
+                'google_rating'=>$data->google_rating,
+                'google_pricelevel'=>$data->google_pricelevel,
             ]);
+        }else{
+            $bar->nombre = $data->nombre;
+            $bar->longitud = $data->longitud;
+            $bar->deviceid = $data->deviceid;
+            $bar->google_phonenumber = $data->google_phonenumber;
+            $bar->google_website = $data->google_website;
+            $bar->google_rating = $data->google_rating;
+            $bar->google_pricelevel = $data->google_pricelevel;
+            $bar->save();
         }
 
          return  Bar::with('opiniones')->with('opiniones.tipo')->with('opiniones.camposopiniones')->with('opiniones.camposopiniones.campo')->with('opiniones.camposopiniones.marcas')->with('opiniones.camposopiniones.tamanios')->find($bar->id);

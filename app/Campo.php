@@ -3,15 +3,19 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class Campo extends Model
+class Campo extends Model implements Auditable
 {
+    use \OwenIt\Auditing\Auditable;
     protected $fillable = [
-        'nombre', 'indicarmarca', 'indicartamanio',
+        'nombre'
     ];
 
-    public function opiniones()
+    
+
+    public function subcampos()
     {
-        return $this->hasMany('App\CampoOpinion');
+        return $this->hasMany('App\Subcampo');
     }
 }

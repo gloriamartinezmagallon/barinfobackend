@@ -97,7 +97,7 @@ class BuscadorBares
                 ->leftjoin('campo_opinion_marcas', 'campo_opinion_marcas.campo_opinion_id', '=', 'campo_opinions.id')
                 ->select('bars.*', DB::raw($distance))
                 ->whereRaw(implode(' AND ', $whereArgs))
-                ->groupBy(['id','codrecursoGN', 'nombre', 'nombreLocalidad', 'tipo', 'especialidad', 'imgFicheroGN', 'descripZona', 'latitud', 'longitud','direccion','created_at','updated_at','distance','deviceid'])
+                ->groupBy(['id','codrecursoGN', 'nombre', 'nombreLocalidad', 'tipo', 'especialidad', 'imgFicheroGN', 'descripZona', 'latitud', 'longitud','direccion','created_at','updated_at','distance','deviceid','google_phonenumber','google_website','google_rating','google_pricelevel'])
                 ->orderBy('distance', 'ASC')
                 ->get();
         } else {
@@ -108,7 +108,7 @@ class BuscadorBares
                 ->leftjoin('campo_opinion_marcas', 'campo_opinion_marcas.campo_opinion_id', '=', 'campo_opinions.id')
                 ->select('bars.*')
                 ->whereRaw(implode(' AND ', $whereArgs))
-                ->groupBy(['id','codrecursoGN', 'nombre', 'nombreLocalidad', 'tipo', 'especialidad', 'imgFicheroGN', 'descripZona', 'latitud', 'longitud','direccion','created_at','updated_at','deviceid'])
+                ->groupBy(['id','codrecursoGN', 'nombre', 'nombreLocalidad', 'tipo', 'especialidad', 'imgFicheroGN', 'descripZona', 'latitud', 'longitud','direccion','created_at','updated_at','deviceid','google_phonenumber','google_website','google_rating','google_pricelevel'])
                 ->get();
         }
 

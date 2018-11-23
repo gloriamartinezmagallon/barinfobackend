@@ -10,4 +10,8 @@ class Tipo extends Model
         'nombre'
     ];
 
+    public function bares()
+    {
+        return $this->hasMany('App\Bar');
+    }
 }

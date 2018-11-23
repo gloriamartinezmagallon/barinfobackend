@@ -57,6 +57,17 @@ return [
                     'title' => 'Crear nuevo campo de búsqueda',
                 ],
             ],
+            'servicios' => [
+                'title'   => 'Servicios',
+                'nombre'  => 'Nombre del servicio',
+                'ubicacion'   => 'Indicar ubicación',
+                'calidad' => 'Indicar calidad',
+                'precio' => 'Indicar precio',
+                'numero' => 'Indicar número',
+                'crear'   => [
+                    'title' => 'Crear nuevo servicio',
+                ],
+            ],
 
         ],
     ],

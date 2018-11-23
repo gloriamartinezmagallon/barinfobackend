@@ -39,5 +39,11 @@ Route::middleware('auth:web')->group(function () {
         Route::post('datos/campos/editar/{id}', 'Admin\CampoController@update');
         Route::get('datos/campos/crear', 'Admin\CampoController@create')->name('admin.datos.campos.create');
         Route::post('datos/campos/crear', 'Admin\CampoController@store');
+
+        Route::get('datos/servicios', 'Admin\ServicioController@index')->name('admin.datos.servicios');
+        Route::get('datos/servicios/editar/{id}', 'Admin\ServicioController@edit')->name('admin.datos.servicios.edit');
+        Route::post('datos/servicios/editar/{id}', 'Admin\ServicioController@update');
+        Route::get('datos/servicios/crear', 'Admin\ServicioController@create')->name('admin.datos.servicios.create');
+        Route::post('datos/servicios/crear', 'Admin\ServicioController@store');
     });
 });
